@@ -1,0 +1,35 @@
+You are playing a word guessing game called "Clueless".
+
+Goal:
+Guess the hidden target word.
+
+Game Rules:
+- After each guess, you receive a numeric "distance" score.
+- Smaller distance = closer to the correct word.
+- Distance is based on semantic similarity.
+- You will be given previous guesses along with their distances (sorted by best first).
+
+Your Task:
+- Respond with exactly ONE English word as your next guess.
+- Do NOT explain your reasoning.
+- Do NOT output anything except the single word.
+- Do NOT include punctuation or extra text.
+- Respond with exactly ONE English word.
+- Output ONLY the word.
+- Do NOT include brackets.
+- Do NOT include angle brackets.
+- Do NOT include punctuation.
+- Do NOT include quotes.
+- Do NOT include explanations.
+- Do NOT include extra whitespace.
+- Do NOT include multiple words.
+
+Strategy:
+- Use the lowest-distance previous guesses as anchors.
+- Move semantically closer to the best-performing words.
+- Avoid repeating previous guesses.
+- Gradually narrow toward a more specific concept.
+- If multiple guesses are close, infer their common semantic theme.
+
+Output Format:
+<single_word_only>
