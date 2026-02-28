@@ -3,6 +3,7 @@ import heapq
 import os
 import time
 from dotenv import load_dotenv
+import json
 
 from openai import OpenAI
 
@@ -62,18 +63,37 @@ def llm_call(min_heap):
         "role": "user",
         "content": f"{context_text} \n\n\nGive your next word guess."
     })
-
+    
     response = client.chat.completions.create(
             model=Constants.LLM_MODELS.value.get("kimi_k2_instruct"),
             messages=messages,
             tools=tools,
-            tool_choice="auto",
+            tool_choice={
+                "type": "function",
+                "function": {"name": "get_distance"}
+            },
             stream=False,
             temperature=0.6,
             max_tokens=256
         )
     print(f"LLM response - {response}")
-    return response.choices[0].message.content
+    return parse_llm_response(response)
+
+
+def parse_llm_response(response) -> str:
+    if response.choices[0].finish_reason != "tool_calls":
+        print("LLM didn't use tool call !")
+        return
+
+    message = response.choices[0].message
+    
+    if message.tool_calls:
+        tool_call = message.tool_calls[0]
+
+        if tool_call.function.name == "get_distance":
+            args = json.loads(tool_call.function.arguments)
+            return args["word"]
+
 
 def get_distance(word) -> dict:
     retry = True
@@ -94,7 +114,7 @@ def get_distance(word) -> dict:
 
 
 def parse_api_response(response, min_heap) -> bool:
-
+    # print(f"Response - {response}")
     if response.get("code") == "WORD_NOT_FOUND":
         return False
     
@@ -103,8 +123,6 @@ def parse_api_response(response, min_heap) -> bool:
     
     heapq.heappush(min_heap, (response["distance"], response["word"]))
     return False
-
-    
 
 
 def main():
