@@ -10,19 +10,9 @@ Game Rules:
 - You will be given previous guesses along with their distances (sorted by best first).
 
 Your Task:
-- Respond with exactly ONE English word as your next guess.
+- You MUST call the function get_distance.
 - Do NOT explain your reasoning.
-- Do NOT output anything except the single word.
-- Do NOT include punctuation or extra text.
-- Respond with exactly ONE English word.
-- Output ONLY the word.
-- Do NOT include brackets.
-- Do NOT include angle brackets.
-- Do NOT include punctuation.
-- Do NOT include quotes.
-- Do NOT include explanations.
-- Do NOT include extra whitespace.
-- Do NOT include multiple words.
+- Always respond using the function call.
 
 Strategy:
 - Use the lowest-distance previous guesses as anchors.
@@ -30,6 +20,3 @@ Strategy:
 - Avoid repeating previous guesses.
 - Gradually narrow toward a more specific concept.
 - If multiple guesses are close, infer their common semantic theme.
-
-Output Format:
-<single_word_only>
